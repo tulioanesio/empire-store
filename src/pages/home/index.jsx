@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/api";
 
 function Home() {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchProducts() {
@@ -30,13 +32,13 @@ function Home() {
         </div>
       </header>
 
-      {/* Main */}
       <main className="flex-grow p-8">
         <section>
           <h2 className="text-2xl font-bold text-text mb-6">Featured Products</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {products.map((product) => (
+              <Link key={product.id} to={`/product/${product.id}`}>
               <article
                 key={product.id}
                 className="bg-white rounded-xl shadow p-4 flex flex-col items-center hover:scale-105 transition"
@@ -54,14 +56,14 @@ function Home() {
                   Comprar
                 </button>
               </article>
+              </Link>
             ))}
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-primary text-white text-center py-4 mt-8">
-        <p>&copy; {new Date().getFullYear()} Meu E-commerce</p>
+      <footer className="bg-primary text-black text-center py-4 mt-8">
+        <p>&copy; {new Date().getFullYear()} Empire Store</p>
       </footer>
     </div>
   );
