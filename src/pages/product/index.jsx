@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
 import NavBar from "../../components/NavBar";
+import BuyNow from "../../components/BuyNow";
+import Footer from "../../components/Footer";
 
 function ProductDetail() {
   const [product, setProduct] = useState(null);
@@ -21,38 +23,49 @@ function ProductDetail() {
   }, [id]);
 
   if (!product) {
-    return <p className="text-center mt-10">Carregando produto...</p>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-zinc-950 text-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-emerald-500"></div>
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col bg-zinc-950 text-white">
       <NavBar />
-      <main className="min-h-screen py-45">
-        <div className="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow">
-          <h1 className="text-3xl font-bold text-center mb-6">
-            {product.name}
-          </h1>
-          <div className="flex flex-col md:flex-row items-center gap-8">
+
+      <main className="flex-grow max-w-5xl mx-auto px-6 py-12">
+        <div className="grid md:grid-cols-2 gap-10 bg-zinc-900 p-8 rounded-2xl shadow-lg">
+          <div className="flex items-center justify-center">
             <img
               src={product.imageUrl}
               alt={product.name}
-              className="w-64 h-64 object-contain"
+              className="w-full max-w-md h-auto object-contain rounded-lg shadow"
             />
-            <div className="flex-1 space-y-4">
-              <p className="text-2xl font-semibold text-accent">
-                ${product.price.toFixed(2)}
+          </div>
+
+          <div className="flex flex-col justify-between space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+              <p className="text-emerald-400 text-2xl font-semibold">
+                $ {product.price.toFixed(2)}
               </p>
-              <p className="text-muted">Estoque: {product.stock}</p>
-              <p>{product.description}</p>
-              <button className="bg-black text-white px-6 py-2 rounded hover:bg-blue-900 transition">
-                Comprar
-              </button>
+              <p className="text-sm text-zinc-400 mt-1">
+                Amount: {product.stock} un.
+              </p>
             </div>
+
+            <p className="text-zinc-300 leading-relaxed">{product.description}</p>
+
+            <BuyNow></BuyNow>
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
 
 export default ProductDetail;
+
+

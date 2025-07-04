@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import NavBar from "../../components/NavBar";
-import teste from "../../assets/teste.png";
+import BuyNow from "../../components/BuyNow";
+import Footer from "../../components/Footer";
+import poster from "../../assets/poster.png";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -22,37 +24,40 @@ function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-zinc-900">
+    <div className="min-h-screen flex flex-col bg-zinc-950 text-white">
       <NavBar />
-      <main className="flex-grow p-8">
-        
+
+      <main className="flex-grow px-4 md:px-12 py-8">
+        <div className="w-full rounded-xl overflow-hidden mb-10 shadow-lg">
+          <img
+            src={poster}
+            alt="Empire Store Banner"
+            className="w-full object-cover object-center"
+          />
+        </div>
+
         <section>
-          <h2 className="text-2xl font-bold text-white text-text mb-6">
+          <h2 className="text-3xl font-bold text-balance text-white mb-8 border-b border-zinc-800 pb-4">
             Featured Products
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {products.map((product) => (
               <Link key={product.id} to={`/product/${product.id}`}>
-                <article
-                  key={product.id}
-                  className="bg-white rounded-xl shadow p-4 flex flex-col items-center hover:scale-105 transition"
-                >
+                <article className="bg-zinc-900 hover:bg-zinc-800 rounded-2xl p-5 shadow-md transition hover:scale-[1.03] flex flex-col items-center text-center">
                   <img
                     src={product.imageUrl}
                     alt={product.name}
-                    className="w-64 h-64 object-contain mb-4"
+                    className="w-full h-52 object-contain mb-4"
                   />
-                  <h3 className="text-lg font-semibold text-text text-center truncate w-full">
+                  <h3 className="text-lg font-semibold truncate w-full">
                     {product.name}
                   </h3>
-                  <p className="text-accent text-base font-medium mt-1 mb-3">
+                  <p className="text-emerald-400 font-medium mt-1 text-base">
                     $ {product.price.toFixed(2)}
                   </p>
 
-                  <button className="bg-white text-black px-8 py-2 rounded hover:bg-black hover:text-white transition border-1">
-                    Buy Now
-                  </button>
+                  <BuyNow />
                 </article>
               </Link>
             ))}
@@ -60,9 +65,7 @@ function Home() {
         </section>
       </main>
 
-      <footer className="bg-primary text-black text-center py-4 mt-8">
-        <p>&copy; {new Date().getFullYear()} Empire Store</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
