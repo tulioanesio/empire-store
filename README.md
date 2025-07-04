@@ -35,3 +35,10 @@ npm run dev
 
 # Access the app at:
 http://localhost:5173
+```
+
+## Live Demo
+
+The project is deployed and available on **Vercel**:
+
+- [**Empire Store**](https://new-empire-store.vercel.app/)
