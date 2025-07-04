@@ -6,7 +6,7 @@ Frontend of the **Empire Store**, a Star Wars–inspired e-commerce platform. Bu
 
 ## Technologies Used
 
-- ⚛[React](https://reactjs.org/)
+- [React](https://reactjs.org/)
 - [Vite](https://vitejs.dev/)
 - [Axios](https://axios-http.com/)
 - [TailwindCSS](https://tailwindcss.com/) 
