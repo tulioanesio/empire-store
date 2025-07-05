@@ -1,6 +1,6 @@
 # Empire Store – Frontend
 
-Frontend of the **Empire Store**, a Star Wars–inspired e-commerce platform. Built with **React**, **Vite**, and **Axios**, it connects to the backend API to provide an immersive galactic shopping experience, from logging in as a trooper to adding products to your Imperial cart.
+Frontend of the **Empire Store**, a Star Wars–inspired e-commerce platform. Built with **React**, **Vite**, and **Axios**, it connects to the [backend API](https://github.com/tulioanesio/e-commerce-API) to provide an immersive galactic shopping experience, from logging in as a trooper to adding products to your Imperial cart.
 
 > “Welcome to the dark side… we have merchandise.”
 
