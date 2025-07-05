@@ -20,7 +20,7 @@ Frontend of the **Empire Store**, a Star Wars–inspired e-commerce platform. Bu
 - Protected routes with JWT authentication
 - Dark side–inspired styling and theme
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 ```bash
 # Clone the repository
