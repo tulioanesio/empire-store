@@ -27,10 +27,12 @@ function Login() {
       const token = response.data.token;
       localStorage.setItem("token", token);
 
-      navigate("/cart");
+      navigate("/");
     } catch (err) {
       if (err.response?.status === 404) {
-        toast.error("Unregistered unit. Please enlist before accessing the system.");
+        toast.error(
+          "Unregistered unit. Please enlist before accessing the system."
+        );
       } else if (err.response?.status === 401) {
         toast.error("Authentication failed. Check your credentials, Trooper.");
       } else {
@@ -62,7 +64,7 @@ function Login() {
                 ref={emailRef}
                 type="email"
                 placeholder="name@example.com"
-                className="px-3 py-2 rounded-md bg-[#2A2A3C] text-[#E0E0E0] placeholder-[#2c729e] focus:outline-none focus:ring-2 focus:ring-[#4bb1f1]"
+                className="px-3 py-2 rounded-md bg-[#1E1E1E] text-[#E0E0E0] placeholder-[#D32F2F] focus:outline-none focus:ring-2 focus:ring-[#D32F2F]"
                 required
               />
             </div>
@@ -77,7 +79,7 @@ function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full pr-8 px-3 py-2 rounded-md bg-[#2A2A3C] text-[#E0E0E0] placeholder-[#2c729e] focus:outline-none focus:ring-2 focus:ring-[#4bb1f1]"
+                  className="w-full pr-8 px-3 py-2 rounded-md bg-[#1E1E1E] text-[#E0E0E0] placeholder-[#D32F2F] focus:outline-none focus:ring-2 focus:ring-[#D32F2F]"
                   required
                 />
                 <div
@@ -96,7 +98,7 @@ function Login() {
 
             <button
               type="submit"
-              className="py-2 bg-[#3B3B5C] text-[#78BAFD] font-bold rounded-md hover:bg-[#4b4b6c] transition-colors"
+              className="py-2 bg-[#D32F2F] text-white font-bold rounded-md hover:bg-[#B71C1C] transition-colors"
             >
               Access Imperial Systems
             </button>
@@ -104,8 +106,8 @@ function Login() {
             <p className="text-sm text-[#9CA3AF] text-center">
               Not enlisted yet?{" "}
               <Link
-                to="#"
-                className="text-[#4bb1f1] hover:text-white underline"
+                to="/register"
+                className="text-[#D32F2F] hover:text-white underline"
               >
                 Join the Empire today.
               </Link>

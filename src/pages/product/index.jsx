@@ -1,15 +1,29 @@
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
+import { jwtDecode } from "jwt-decode";
 import NavBar from "../../components/NavBar";
 import BuyNow from "../../components/BuyNow";
 import Footer from "../../components/Footer";
 
 function ProductDetail() {
   const [product, setProduct] = useState(null);
+  const [user, setUser] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+      try {
+        const decodedToken = jwtDecode(token);
+        setUser({
+          name: decodedToken.name || "Aa",
+        });
+      } catch (error) {
+        console.error("Erro ao decodificar o token JWT:", error);
+      }
+    
+
     async function fetchProduct() {
       try {
         const res = await api.get(`/product/${id}`);
@@ -32,7 +46,7 @@ function ProductDetail() {
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-white">
-      <NavBar />
+      <NavBar user={user} />
 
       <main className="flex-grow max-w-5xl mx-auto px-6 py-12">
         <div className="grid md:grid-cols-2 gap-10 bg-zinc-900 p-8 rounded-2xl shadow-lg">
@@ -55,7 +69,9 @@ function ProductDetail() {
               </p>
             </div>
 
-            <p className="text-zinc-300 leading-relaxed">{product.description}</p>
+            <p className="text-zinc-300 leading-relaxed">
+              {product.description}
+            </p>
 
             <BuyNow></BuyNow>
           </div>
@@ -67,5 +83,3 @@ function ProductDetail() {
 }
 
 export default ProductDetail;
-
-

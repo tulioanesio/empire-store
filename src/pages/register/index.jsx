@@ -8,6 +8,7 @@ import Hide from "../../assets/Hide.png";
 import Show from "../../assets/Show.png";
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
+import user from "../../assets/user.png";
 
 function Register() {
   const nameRef = useRef();
@@ -29,14 +30,14 @@ function Register() {
       const token = response.data.token;
       localStorage.setItem("token", token);
 
-      toast.success("Usuário registrado com sucesso!", {
+      toast.success("You are now enlisted. Welcome to the Empire.", {
         autoClose: 500,
       });
 
-      setTimeout(() => navigate("/home"), 1000);
+      setTimeout(() => navigate("/"), 1000);
     } catch (err) {
       if (err.response?.status === 409) {
-        toast.error("Este email já está em uso.");
+        toast.error("This Imperial ID is already registered.");
       } else {
         toast.error(err);
       }
@@ -44,42 +45,42 @@ function Register() {
   }
 
   return (
-    <div className="bg-[#111010] min-h-screen flex flex-col">
+    <div className="bg-[#09090B] min-h-screen flex flex-col">
       <NavBar />
 
-      <div className="flex-grow flex items-center justify-center">
-        <div className="bg-[#27272A] h-[550px] p-8 w-full max-w-md rounded-md shadow-lg">
-          <img alt="Trooper" className="mx-auto mb-4 w-12 h-12" />
+      <div className="flex-grow flex items-center justify-center px-4">
+        <div className="bg-zinc-900 p-8 w-full max-w-md rounded-md shadow-lg">
+          <img src={user} alt="Trooper" className="mx-auto mb-4 w-12 h-12" />
           <h1 className="text-center text-[#E0E0E0] font-bold text-2xl mb-2">
             Enlist Now for duty!
           </h1>
           <p className="text-[#E0E0E0] text-md text-center">
-            Entre na sua conta para visualizar suas tarefas
+            Your clearance is required to proceed, enlist now.
           </p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-6 my-8">
             <div className="flex flex-col gap-2">
               <label htmlFor="name" className="text-[#E0E0E0] text-md">
-                "Designation (Name)"
+                Designation (Name)
               </label>
               <input
                 ref={nameRef}
                 type="text"
                 placeholder="Name"
-                className="px-3 py-2 rounded-md bg-[#2A2A3C] text-[#E0E0E0] placeholder-[#2c729e] focus:outline-none focus:ring-2 focus:ring-[#4bb1f1]"
+                className="px-3 py-2 rounded-md bg-[#1E1E1E] text-[#E0E0E0] placeholder-[#D32F2F] focus:outline-none focus:ring-2 focus:ring-[#D32F2F]"
                 required
               />
             </div>
 
             <div className="flex flex-col gap-2">
               <label htmlFor="email" className="text-[#E0E0E0] text-md">
-                "Imperial ID (Email)"
+                Imperial ID (Email)
               </label>
               <input
                 ref={emailRef}
                 type="text"
                 placeholder="E-mail"
-                className="px-3 py-2 rounded-md bg-[#2A2A3C] text-[#E0E0E0] placeholder-[#2c729e] focus:outline-none focus:ring-2 focus:ring-[#4bb1f1]"
+                className="px-3 py-2 rounded-md bg-[#1E1E1E] text-[#E0E0E0] placeholder-[#D32F2F] focus:outline-none focus:ring-2 focus:ring-[#D32F2F]"
                 required
               />
             </div>
@@ -95,7 +96,7 @@ function Register() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full pr-8 px-3 py-2 rounded-md bg-[#2A2A3C] text-[#E0E0E0] placeholder-[#2c729e] focus:outline-none focus:ring-2 focus:ring-[#4bb1f1]"
+                  className="w-full pr-8 px-3 py-2 rounded-md bg-[#1E1E1E] text-[#E0E0E0] placeholder-[#D32F2F] focus:outline-none focus:ring-2 focus:ring-[#D32F2F]"
                   required
                 />
                 <div
@@ -114,25 +115,25 @@ function Register() {
 
             <button
               type="submit"
-              className="py-2 bg-[#3B3B5C] text-[#78BAFD] font-bold rounded-md hover:bg-[#4b4b6c] transition-colors"
+              className="py-2 bg-[#D32F2F] text-white font-bold rounded-md hover:bg-[#B71C1C] transition-colors"
             >
-              Cadastre-se
+              Join the Empire
             </button>
-            <ToastContainer theme="dark" autoClose={5000} />
 
             <p className="text-sm text-[#9CA3AF] text-center">
               Already enlisted?{" "}
               <Link
                 to="/login"
-                className="text-[#4bb1f1] hover:text-white underline"
+                className="text-[#D32F2F] hover:text-white underline"
               >
                 Access Imperial Systems.
               </Link>
             </p>
           </form>
         </div>
-        
       </div>
+
+      <ToastContainer theme="dark" autoClose={5000} />
     </div>
   );
 }

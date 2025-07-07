@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../services/api";
+import { jwtDecode } from "jwt-decode";
 import NavBar from "../../components/NavBar";
 import BuyNow from "../../components/BuyNow";
 import Footer from "../../components/Footer";
@@ -8,9 +9,19 @@ import poster from "../../assets/poster.png";
 
 function Home() {
   const [products, setProducts] = useState([]);
-  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    try {
+      const decodedToken = jwtDecode(token);
+      setUser({
+        name: decodedToken.name
+      });
+    } catch (error) {
+      console.error("Erro ao decodificar o token JWT:", error);
+    }
+
     async function fetchProducts() {
       try {
         const res = await api.get("/home");
@@ -25,7 +36,7 @@ function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-white">
-      <NavBar />
+      <NavBar user={user} />
 
       <main className="flex-grow px-4 md:px-12 py-8">
         <div className="w-full rounded-xl overflow-hidden mb-10 shadow-lg">
