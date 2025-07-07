@@ -1,6 +1,6 @@
 # Empire Store – Frontend
 
-Frontend of the **Empire Store**, a Star Wars–inspired e-commerce platform. Built with **React**, **Vite**, and **Axios**, it connects to the backend API to provide an immersive galactic shopping experience, from logging in as a trooper to adding products to your Imperial cart.
+Frontend of the **Empire Store**, a Star Wars–inspired e-commerce platform. Built with **React**, **Vite**, and **Axios**, it connects to the [backend API](https://github.com/tulioanesio/e-commerce-API) to provide an immersive galactic shopping experience, from logging in as a trooper to adding products to your Imperial cart.
 
 > “Welcome to the dark side… we have merchandise.”
 
@@ -20,7 +20,7 @@ Frontend of the **Empire Store**, a Star Wars–inspired e-commerce platform. Bu
 - Protected routes with JWT authentication
 - Dark side–inspired styling and theme
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 ```bash
 # Clone the repository
@@ -35,3 +35,10 @@ npm run dev
 
 # Access the app at:
 http://localhost:5173
+```
+
+## Live Demo
+
+The project is deployed and available on **Vercel**:
+
+- [**Empire Store**](https://new-empire-store.vercel.app/)
