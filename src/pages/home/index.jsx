@@ -53,7 +53,8 @@ function Home() {
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {products.map((product) => (
+            {products.map((product) => ( 
+              
               <Link key={product.id} to={`/product/${product.id}`}>
                 <article className="bg-zinc-900 hover:bg-zinc-800 rounded-2xl p-5 shadow-md transition hover:scale-[1.03] flex flex-col items-center text-center">
                   <img
@@ -68,7 +69,7 @@ function Home() {
                     $ {product.price.toFixed(2)}
                   </p>
 
-                  <BuyNow />
+                  <BuyNow productId={product.id}/>
                 </article>
               </Link>
             ))}

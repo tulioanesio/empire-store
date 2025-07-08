@@ -14,15 +14,14 @@ function ProductDetail() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-      try {
-        const decodedToken = jwtDecode(token);
-        setUser({
-          name: decodedToken.name || "Aa",
-        });
-      } catch (error) {
-        console.error("Erro ao decodificar o token JWT:", error);
-      }
-    
+    try {
+      const decodedToken = jwtDecode(token);
+      setUser({
+        name: decodedToken.name || "Aa",
+      });
+    } catch (error) {
+      console.error("Erro ao decodificar o token JWT:", error);
+    }
 
     async function fetchProduct() {
       try {
@@ -73,7 +72,8 @@ function ProductDetail() {
               {product.description}
             </p>
 
-            <BuyNow></BuyNow>
+            <BuyNow productId={product.id} />
+
           </div>
         </div>
       </main>

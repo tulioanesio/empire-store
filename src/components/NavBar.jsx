@@ -42,7 +42,7 @@ export default function NavBar({ user }) {
 
         <div className="flex items-center gap-4">
           <div className="flex items-center text-white text-sm">
-            <Link to="/" className="flex items-center gap-2 underline">
+            <Link to="/cart" className="flex items-center gap-2 underline">
               <img src={millenium} alt="Cart Icon" className="w-6 h-6" />
               <p>Cart</p>
             </Link>
