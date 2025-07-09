@@ -1,22 +1,29 @@
 import api from "../services/api.js";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function BuyNow({ productId }) {
-  async function handleBuyNow() {
-    try {
-      const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
+  async function handleBuyNow() {
+    const token = localStorage.getItem("token");
+    try {
       await api.post(`/cart/${productId}`, null, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      toast.success("Produto adicionado ao carrinho com sucesso!");
+      navigate("/precart")
+      toast.success("The Empire has seized the product for you!");
     } catch (error) {
-      toast.error("Erro ao adicionar produto ao carrinho.");
-      console.error("Erro ao adicionar produto ao carrinho:", error);
+      if (!token) {
+        setTimeout(() => navigate("/login"), 2500);
+        toast.error("You must be aligned with the Empire to add to the cart. Redirecting...");
+      } else {
+        toast.error("Imperial systems malfunctioned, product not added.");
+      }
     }
   }
 
@@ -30,7 +37,7 @@ export default function BuyNow({ productId }) {
         Buy Now
       </button>
 
-      <ToastContainer theme="dark" autoClose={3000} position="bottom-right"/>
+      <ToastContainer theme="dark" autoClose={2000} position="bottom-right" />
     </>
   );
 }
