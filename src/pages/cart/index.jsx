@@ -9,9 +9,9 @@ function Cart() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
+  useEffect(() => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
@@ -21,24 +21,41 @@ function Cart() {
       }
     }
 
-    async function fetchCart() {
-      try {
-        const response = await api.get("/cart", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        setCartItems(response.data.cart.items || []);
-      } catch (error) {
-        console.error("Erro ao buscar carrinho:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
     fetchCart();
   }, []);
+
+  async function fetchCart() {
+    try {
+      const response = await api.get("/cart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setCartItems(response.data.cart.items || []);
+    } catch (error) {
+      console.error("Erro ao buscar carrinho:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function removeItem(id) {
+    try {
+      await api.delete(`/cart/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      fetchCart();
+    } catch (error) {
+      console.error("Erro ao remover item:", error);
+    }
+  }
+
+  const total = cartItems.reduce((acc, item) => {
+    return acc + item.productPrice * item.quantity;
+  }, 0);
 
   if (loading) {
     return (
@@ -60,11 +77,18 @@ function Cart() {
         ) : (
           <ul className="space-y-4">
             {cartItems.map((item) => (
-              <li key={item.id} className="bg-zinc-900 p-4 rounded-xl shadow">
-                <div className="flex justify-between items-center">
-                  <div>
-                    
-                    <h2 className="text-lg font-semibold">
+              <li
+                key={item.id}
+                className="bg-zinc-900 p-4 rounded-xl shadow flex items-center justify-between gap-4 w-300"
+              >
+                <div className="flex items-center gap-4">
+                  <img
+                    src={item.productImageUrl}
+                    alt={item.productName}
+                    className="w-28 h-28 object-contain rounded"
+                  />
+                  <div className="flex flex-col justify-between">
+                    <h2 className="text-lg font-semibold mb-1">
                       {item.productName}
                     </h2>
                     <p className="text-emerald-400">
@@ -76,10 +100,21 @@ function Cart() {
                     </p>
                   </div>
                 </div>
+
+                <button
+                  onClick={() => removeItem(item.id)}
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-sm transition"
+                >
+                  🗑️
+                </button>
               </li>
             ))}
           </ul>
         )}
+
+        <p className="text-xl font-bold mt-6">
+          Total: ${total.toFixed(2)}
+        </p>
       </main>
 
       <Footer />
