@@ -49,7 +49,7 @@ function Success() {
         </h2>
 
         <p className="mb-6">
-          Would you like to continue shopping or go to your cart?
+          Would you like to continue shopping?
         </p>
 
         <div className="flex gap-4">
