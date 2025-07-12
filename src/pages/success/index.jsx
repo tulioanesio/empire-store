@@ -43,7 +43,7 @@ function Success() {
       <NavBar user={user} />
 
       <main className="flex-1 flex flex-col items-center justify-center px-4 text-center">
-        <CheckCircleIcon fontSize="large" className="bg-emerald-500 mb-4" />
+        <CheckCircleIcon fontSize="large" className="text-emerald-500 mb-4" />
         <h2 className="text-2xl font-semibold mb-4">
           Transaction complete, the Empire thanks you for your tribute.
         </h2>

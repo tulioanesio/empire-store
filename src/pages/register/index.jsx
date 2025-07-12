@@ -38,8 +38,11 @@ function Register() {
     } catch (err) {
       if (err.response?.status === 409) {
         toast.error("This Imperial ID is already registered.");
+      }
+      if (err.response && err.response.status === 400) {
+        toast.error(err.response.data.message);
       } else {
-        toast.error(err);
+        toast.error("Something went wrong. Please try again.");
       }
     }
   }
