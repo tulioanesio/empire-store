@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from "../../services/api";
 import { jwtDecode } from "jwt-decode";
 import NavBar from "../../components/NavBar";
@@ -21,7 +21,7 @@ function Home() {
           name: decodedToken.name,
         });
       } catch (error) {
-        console.error("Erro ao decodificar o token JWT:", error);
+        console.error("Error decoding token:", error);
       }
     }
 
@@ -30,7 +30,7 @@ function Home() {
         const res = await api.get("/home");
         setProducts(res.data.products);
       } catch (error) {
-        console.error("Erro ao carregar produtos:", error);
+        console.error("Error loading products:", error);
       }
     }
 

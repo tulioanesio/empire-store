@@ -5,6 +5,8 @@ import Login from "./pages/login";
 import Product from "./pages/product";
 import PreCart from "./pages/precart";
 import Cart from "./pages/cart";
+import Success from "./pages/success";
+import Cancel from "./pages/cancel";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/Product/:id" element={<Product />} />
         <Route path="/PreCart" element={<PreCart />} />
         <Route path="/Cart" element={<Cart />} />
+        <Route path="/Success" element={<Success />} />
+        <Route path="/Cancel" element={<Cancel />} />
       </Routes>
     </BrowserRouter>
   );

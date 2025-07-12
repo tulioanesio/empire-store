@@ -18,7 +18,7 @@ function PreCart() {
         const decoded = jwtDecode(token);
         setUser({ name: decoded.name });
       } catch (err) {
-        console.error("Erro ao decodificar token:", err);
+        console.error("Error decoding token:", err);
       }
     }
 
@@ -32,7 +32,7 @@ function PreCart() {
 
         setCartItems(response.data.cart.items || []);
       } catch (error) {
-        console.error("Erro ao buscar carrinho:", error);
+        console.error("Error when getting cart:", error);
       } finally {
         setLoading(false);
       }

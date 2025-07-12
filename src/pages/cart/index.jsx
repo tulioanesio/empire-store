@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import NavBar from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import api from "../../services/api";
+import { ToastContainer, toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -17,7 +19,7 @@ function Cart() {
         const decoded = jwtDecode(token);
         setUser({ name: decoded.name });
       } catch (err) {
-        console.error("Erro ao decodificar token:", err);
+        console.error("Error decoding token:", err);
       }
     }
 
@@ -34,22 +36,41 @@ function Cart() {
 
       setCartItems(response.data.cart.items || []);
     } catch (error) {
-      console.error("Erro ao buscar carrinho:", error);
+      console.error("Error when getting cart:", error);
     } finally {
       setLoading(false);
     }
   }
 
-  async function removeItem(id) {
+  async function removeItem(productId) {
     try {
-      await api.delete(`/cart/${id}`, {
+      await api.delete(`/cart/${productId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       fetchCart();
     } catch (error) {
-      console.error("Erro ao remover item:", error);
+      console.error("Error removing item:", error);
+    }
+  }
+
+  async function checkout() {
+    try {
+      const response = await api.get(
+        "/checkout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.error("Erro in checkout:", error);
+      toast.error("Failed to initiate checkout");
     }
   }
 
@@ -92,8 +113,7 @@ function Cart() {
                       {item.productName}
                     </h2>
                     <p className="text-emerald-400">
-                      ${" "}
-                      {(item.productPrice * item.quantity).toFixed(2)}{" "}
+                      $ {(item.productPrice * item.quantity).toFixed(2)}{" "}
                       <span className="text-zinc-400 text-sm">
                         (x{item.quantity})
                       </span>
@@ -105,17 +125,27 @@ function Cart() {
                   onClick={() => removeItem(item.id)}
                   className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-sm transition"
                 >
-                  🗑️
+                  <DeleteIcon/>
                 </button>
               </li>
             ))}
           </ul>
         )}
 
-        <p className="text-xl font-bold mt-6">
-          Total: ${total.toFixed(2)}
-        </p>
+        {cartItems.length > 0 && (
+          <div className="mt-8 text-right">
+            <button
+              onClick={checkout}
+              className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-2 rounded transition"
+            >
+              Proceed to Checkout
+            </button>
+          </div>
+        )}
+
+        <p className="text-xl font-bold mt-6">Total: ${total.toFixed(2)}</p>
       </main>
+      <ToastContainer theme="dark" autoClose={2000} position="bottom-right" />
 
       <Footer />
     </div>

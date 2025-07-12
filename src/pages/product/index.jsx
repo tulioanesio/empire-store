@@ -19,7 +19,7 @@ function ProductDetail() {
         name: decodedToken.name || "Aa",
       });
     } catch (error) {
-      console.error("Erro ao decodificar o token JWT:", error);
+      console.error("Error decoding token:", error);
     }
 
     async function fetchProduct() {
@@ -27,7 +27,7 @@ function ProductDetail() {
         const res = await api.get(`/product/${id}`);
         setProduct(res.data.product);
       } catch (error) {
-        console.error("Erro ao carregar produto:", error);
+        console.error("Error getting product:", error);
       }
     }
 
