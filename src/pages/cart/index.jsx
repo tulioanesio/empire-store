@@ -4,7 +4,7 @@ import Footer from "../../components/Footer";
 import api from "../../services/api";
 import { ToastContainer, toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -90,42 +90,51 @@ function Cart() {
     <div className="min-h-screen flex flex-col bg-zinc-950 text-white">
       <NavBar user={user} />
 
-      <main className="flex-grow px-6 py-8">
-        <h1 className="text-3xl font-bold mb-6">Your Cart</h1>
+      <main className="flex-grow px-6 py-10 max-w-5xl mx-auto w-full">
+        <h1 className="text-4xl font-extrabold mb-8 text-red-500 tracking-wide">
+          Your Imperial Cart
+        </h1>
 
         {cartItems.length === 0 ? (
-          <p className="text-zinc-400">Your cart is empty.</p>
+          <p className="text-zinc-400 text-lg">
+            Your cart is empty. The Dark Side is patient.
+          </p>
         ) : (
-          <ul className="space-y-4">
+          <ul className="space-y-6">
             {cartItems.map((item) => (
               <li
                 key={item.id}
-                className="bg-zinc-900 p-4 rounded-xl shadow flex items-center justify-between gap-4 w-300"
+                className="bg-zinc-900/60 border border-zinc-800 rounded-2xl shadow-lg p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 transition duration-300 hover:border-red-500"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-6">
                   <img
                     src={item.productImageUrl}
                     alt={item.productName}
-                    className="w-28 h-28 object-contain rounded"
+                    className="w-32 h-32 object-contain rounded-xl border border-zinc-700"
                   />
-                  <div className="flex flex-col justify-between">
-                    <h2 className="text-lg font-semibold mb-1">
+                  <div>
+                    <h2 className="text-xl font-semibold mb-1">
                       {item.productName}
                     </h2>
-                    <p className="text-emerald-400">
-                      $ {(item.productPrice * item.quantity).toFixed(2)}{" "}
+                    <p className="text-green-400 text-lg">
+                      ${item.productPrice.toFixed(2)}{" "}
                       <span className="text-zinc-400 text-sm">
-                        (x{item.quantity})
+                        x{item.quantity}
                       </span>
+                    </p>
+                    <p className="text-zinc-400 text-sm mt-1">
+                      Subtotal: $
+                      {(item.productPrice * item.quantity).toFixed(2)}
                     </p>
                   </div>
                 </div>
 
                 <button
                   onClick={() => removeItem(item.id)}
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-sm transition"
+                  className="cursor-pointer self-start md:self-center text-red-500 hover:text-red-700 transition-all"
+                  title="Remove from cart"
                 >
-                  <DeleteIcon/>
+                  <DeleteIcon fontSize="large" />
                 </button>
               </li>
             ))}
@@ -133,18 +142,20 @@ function Cart() {
         )}
 
         {cartItems.length > 0 && (
-          <div className="mt-8 text-right">
+          <div className="mt-10 flex flex-col items-end space-y-4">
+            <p className="text-2xl font-bold text-white">
+              Total: <span className="text-green-400">${total.toFixed(2)}</span>
+            </p>
             <button
               onClick={checkout}
-              className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-2 rounded transition"
+              className="cursor-pointer bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 px-6 py-3 rounded-lg text-white font-bold tracking-wide shadow-lg hover:shadow-red-800/40 transition duration-300 animate-pulse"
             >
               Proceed to Checkout
             </button>
           </div>
         )}
-
-        <p className="text-xl font-bold mt-6">Total: ${total.toFixed(2)}</p>
       </main>
+
       <ToastContainer theme="dark" autoClose={2000} position="bottom-right" />
 
       <Footer />
