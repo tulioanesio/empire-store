@@ -9,7 +9,7 @@ Frontend of the **Empire Store**, a Star Wars–inspired e-commerce platform. Bu
 - [React](https://reactjs.org/)
 - [Vite](https://vitejs.dev/)
 - [Axios](https://axios-http.com/)
-- [TailwindCSS](https://tailwindcss.com/) 
+- [TailwindCSS](https://tailwindcss.com/)
 
 ## Features
 
@@ -17,6 +17,7 @@ Frontend of the **Empire Store**, a Star Wars–inspired e-commerce platform. Bu
 - Product listing from the Empire
 - View product details
 - Add products to cart
+- Checkout products
 - Protected routes with JWT authentication
 - Dark side–inspired styling and theme
 
@@ -35,6 +36,14 @@ npm run dev
 
 # Access the app at:
 http://localhost:5173
+```
+
+Checkout can be tested using the following card details:
+
+```bash
+Card number: 4242 4242 4242 4242
+MM/AA: 08/32
+CVC: 123
 ```
 
 ## Live Demo
