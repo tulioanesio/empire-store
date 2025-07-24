@@ -20,12 +20,14 @@ function Login() {
     event.preventDefault();
 
     try {
-      const response = await api.post("/login", {
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      });
-      const token = response.data.token;
-      localStorage.setItem("token", token);
+      await api.post(
+        "/login",
+        {
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+        },
+        { withCredentials: true }
+      );
 
       navigate("/");
     } catch (err) {

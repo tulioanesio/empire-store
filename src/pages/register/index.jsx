@@ -22,13 +22,15 @@ function Register() {
     event.preventDefault();
 
     try {
-      const response = await api.post("/register", {
-        name: nameRef.current.value,
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      });
-      const token = response.data.token;
-      localStorage.setItem("token", token);
+      await api.post(
+        "/register",
+        {
+          name: nameRef.current.value,
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+        },
+        { withCredentials: true }
+      );
 
       toast.success("You are now enlisted. Welcome to the Empire.", {
         autoClose: 500,

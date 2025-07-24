@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
-import { jwtDecode } from "jwt-decode";
 import NavBar from "../../components/NavBar";
 import BuyNow from "../../components/BuyNow";
 import Footer from "../../components/Footer";
@@ -13,16 +12,18 @@ function Home() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
+    const fetchUser = async () => {
       try {
-        const decodedToken = jwtDecode(token);
-        setUser({ name: decodedToken.name });
+        const response = await api.get("/me", { withCredentials: true });
+        const user = response.data.user;
+        if (user) {
+          setUser({ name: user.name });
+        }
       } catch (error) {
-        console.error("Error decoding token:", error);
+        setUser(null);
       }
-    }
+    };
+    fetchUser();
   }, []);
 
   useEffect(() => {

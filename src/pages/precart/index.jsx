@@ -11,23 +11,21 @@ function PreCart() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
+    const fetchUser = async () => {
       try {
-        const decoded = jwtDecode(token);
-        setUser({ name: decoded.name });
-      } catch (err) {
-        console.error("Error decoding token:", err);
+        const response = await api.get("/me", { withCredentials: true });
+        const user = response.data.user;
+        if (user) {
+          setUser({ name: user.name });
+        }
+      } catch (error) {
+        setUser(null);
       }
-    }
-
+    };
     async function fetchCart() {
       try {
         const response = await api.get("/cart", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true,
         });
 
         setCartItems(response.data.cart.items || []);
@@ -37,11 +35,12 @@ function PreCart() {
         setLoading(false);
       }
     }
-
+    fetchUser();
     fetchCart();
   }, []);
 
-  const lastItem = cartItems.length > 0 ? cartItems[cartItems.length - 1] : null;
+  const lastItem =
+    cartItems.length > 0 ? cartItems[cartItems.length - 1] : null;
 
   if (loading) {
     return (

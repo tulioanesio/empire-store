@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import api from "../services/api.js";
 import empire from "../assets/empire.png";
 import trooper from "../assets/trooper.png";
 import millenium from "../assets/millenium.png";
@@ -8,8 +9,8 @@ export default function NavBar({ user }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  function handleLogout() {
-    localStorage.removeItem("token");
+  async function handleLogout() {
+    await api.get("/logout", { withCredentials: true });
     window.location.reload()
   }
 
@@ -59,7 +60,7 @@ export default function NavBar({ user }) {
                 onClick={() => setDropdownOpen((prev) => !prev)}
               >
                 <span className="text-orange-400 font-semibold flex items-center gap-1 border border-zinc-700 px-2 py-1 rounded-md hover:bg-zinc-800 transition">
-                  {user.name.split(" ")[0]}
+                  {user?.name?.split(" ")[0]}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className={`h-4 w-4 transition-transform duration-200 ${

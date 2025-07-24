@@ -14,24 +14,26 @@ function Cart() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (token) {
+    const fetchUser = async () => {
       try {
-        const decoded = jwtDecode(token);
-        setUser({ name: decoded.name });
-      } catch (err) {
-        console.error("Error decoding token:", err);
+        const response = await api.get("/me", { withCredentials: true });
+        const user = response.data.user;
+        if (user) {
+          setUser({ name: user.name });
+        }
+      } catch (error) {
+        setUser(null);
       }
-    }
+    };
 
+    fetchUser();
     fetchCart();
   }, []);
 
   async function fetchCart() {
     try {
       const response = await api.get("/cart", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        withCredentials: true,
       });
 
       setCartItems(response.data.cart.items || []);
@@ -45,9 +47,7 @@ function Cart() {
   async function removeItem(productId) {
     try {
       await api.delete(`/cart/${productId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        withCredentials: true,
       });
       fetchCart();
     } catch (error) {
@@ -57,15 +57,7 @@ function Cart() {
 
   async function checkout() {
     try {
-      const response = await api.get(
-        "/checkout",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await api.get("/checkout", { withCredentials: true });
 
       window.location.href = response.data.url;
     } catch (error) {

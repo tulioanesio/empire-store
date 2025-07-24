@@ -12,16 +12,18 @@ function ProductDetail() {
   const { id } = useParams();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    try {
-      const decodedToken = jwtDecode(token);
-      setUser({
-        name: decodedToken.name || "Aa",
-      });
-    } catch (error) {
-      console.error("Error decoding token:", error);
-    }
-
+    
+    const fetchUser = async () => {
+      try {
+        const response = await api.get("/me", { withCredentials: true });
+        const user = response.data.user;
+        if (user) {
+          setUser({ name: user.name });
+        }
+      } catch (error) {
+        setUser(null);
+      }
+    };
     async function fetchProduct() {
       try {
         const res = await api.get(`/product/${id}`);
@@ -30,7 +32,7 @@ function ProductDetail() {
         console.error("Error getting product:", error);
       }
     }
-
+    fetchUser();
     fetchProduct();
   }, [id]);
 
@@ -72,7 +74,6 @@ function ProductDetail() {
             </p>
 
             <BuyNow productId={product.id} />
-
           </div>
         </div>
       </main>

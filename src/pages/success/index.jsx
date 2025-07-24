@@ -11,24 +11,23 @@ function Success() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
+    const fetchUser = async () => {
       try {
-        const decoded = jwtDecode(token);
-        setUser({ name: decoded.name });
-      } catch (err) {
-        console.error("Error decoding token:", err);
-        navigate("/")
+        const response = await api.get("/me", { withCredentials: true });
+        const user = response.data.user;
+        if (user) {
+          setUser({ name: user.name });
+        }
+      } catch (error) {
+        setUser(null);
       }
-    }
+    };
+    fetchUser();
 
     async function clearCart() {
       try {
         await api.delete("/clear", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          withCredentials: true,
         });
       } catch (error) {
         console.error("Error clearing cart:", error);
@@ -48,9 +47,7 @@ function Success() {
           Transaction complete, the Empire thanks you for your tribute.
         </h2>
 
-        <p className="mb-6">
-          Would you like to continue shopping?
-        </p>
+        <p className="mb-6">Would you like to continue shopping?</p>
 
         <div className="flex gap-4">
           <Link

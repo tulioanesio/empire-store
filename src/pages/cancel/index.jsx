@@ -11,17 +11,18 @@ function Cancel() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
+    const fetchUser = async () => {
       try {
-        const decoded = jwtDecode(token);
-        setUser({ name: decoded.name });
-      } catch (err) {
-        console.error("Error decoding token:", err);
-        navigate("/");
+        const response = await api.get("/me", { withCredentials: true });
+        const user = response.data.user;
+        if (user) {
+          setUser({ name: user.name });
+        }
+      } catch (error) {
+        setUser(null);
       }
-    }
+    };
+    fetchUser();
   }, []);
 
   return (

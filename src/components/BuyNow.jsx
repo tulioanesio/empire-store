@@ -7,20 +7,23 @@ export default function BuyNow({ productId }) {
   const navigate = useNavigate();
 
   async function handleBuyNow() {
-    const token = localStorage.getItem("token");
     try {
+      await api.get("/me", { withCredentials: true });
+
       await api.post(`/cart/${productId}`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        withCredentials: true,
       });
 
-      navigate("/precart")
+      navigate("/precart");
       toast.success("The Empire has seized the product for you!");
     } catch (error) {
-      if (!token) {
+      console.log(error.response.status);
+      const status = error.response?.status;
+      if (status === 401) {
         setTimeout(() => navigate("/login"), 2500);
-        toast.error("You must be aligned with the Empire to add to the cart. Redirecting...");
+        toast.error(
+          "You must be aligned with the Empire to add to the cart. Redirecting..."
+        );
       } else {
         toast.error("Imperial systems malfunctioned, product not added.");
       }
